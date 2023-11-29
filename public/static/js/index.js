@@ -1,12 +1,15 @@
 // Routage frond-end
 import Home from "./views/Home.js";
-import Login from "./views/Login.js";
+import Dashboard from "./views/Dashboard.js";
 import Authorization from "./views/Authorization.js";
+import Callback from "./views/Callback.js";
+
 
 const routes = [
     { path: "/", view: Home },
-    { path: "/login", view: Login},
-    { path: "/authorization", view: Authorization },
+    { path: "/authorization", view: Authorization},
+    { path: "/callback", view: Callback },
+    { path: "/dashboard", view: Dashboard },
 ];
 
 const potentialMatches = routes.map((route) => {
@@ -16,7 +19,9 @@ const potentialMatches = routes.map((route) => {
     };
 });
 
-let match = potentialMatches.find((potentialMatches) => potentialMatches.isMatch);
+let match = potentialMatches.find(
+    (potentialMatches) => potentialMatches.isMatch
+);
 
 if (!match) {
     match = {
@@ -25,8 +30,10 @@ if (!match) {
     };
 }
 
-const view = new match.route.view();
-document.querySelector("#app").innerHTML // la méthode ;
 
+// Protection de la view
+if(match.route.view){
+    const view = new match.route.view();
+}
 
-
+document.querySelector("#app").innerHTML; // la méthode ;

@@ -6,4 +6,5 @@ export default class extends AbstractView {
         super();
         this.setTitle("Home");
     }
+
 }

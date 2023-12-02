@@ -1,12 +1,13 @@
 import AbstractView from "./AbstractView.js";
 
 export default class extends AbstractView {
-
-    constructor(){
+    constructor() {
         super();
+        this.activities = [];
+
         this.setTitle("Dashboard");
 
-        init();
+        this.init();
     }
 
     init() {
@@ -14,27 +15,31 @@ export default class extends AbstractView {
         this.getActivities();
     }
 
+    // 2. récupérer les activités de l'utilisateur dans le dossier data et les afficher dans le dashboard
     async getActivities() {
-        // aller chercher le token dans le local storage
-        const access_token = localStorage.getItem('stravaToken');
-        console.log(access_token);
+        const stravaToken = localStorage.getItem("stravaToken");
+        const stravaTokenParsed = JSON.parse(stravaToken);
 
-        config = {
-            method: 'GET',
+        const config = {
+            method: "POST",
             headers: {
-                "Authorization": `Bearer ${access_token}`	
+                "Content-Type": "application/json",
             },
-            body: JSON.stringify({ access_token: access_token })
-        }
-        // appelle l'API pour récupérer les activités de l'utilisateur
-        await fetch("https://www.strava.com/api/v3/athlete/activities?per_page=10", config)
-        .then(response => response.json())
-        .then(activities => {
-            console.log(activities);
-            return activities;
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
-    };
+            body: JSON.stringify({ accessToken: stravaTokenParsed.access_token }),
+        };
+        const response = await fetch("/getActivities", config);
+        const data = await response.json();
+
+        this.activities = await this.fetchData();
+        console.log(this.activities);
+    }
+
+
+    async fetchData() {
+        const resActivities = await fetch("/data/activities.json");
+        const data = await resActivities.json();
+
+        return data;
+    }
+    
 }

@@ -1,45 +1,42 @@
 import AbstractView from "./AbstractView.js";
 
 export default class extends AbstractView {
-    constructor() {
+    constructor(params) {
         super();
         this.activities = [];
 
         this.setTitle("Dashboard");
 
-        this.init();
+        (async () => {
+            this.activities = await this.fetchData();
+            this.init();
+        })();
     }
 
-    init() {
+    async init() {
         console.log("init dashboard");
-        this.getActivities();
-    }
+        console.log('activities =', this.activities);
 
-    // 2. récupérer les activités de l'utilisateur dans le dossier data et les afficher dans le dashboard
-    async getActivities() {
-        const stravaToken = localStorage.getItem("stravaToken");
-        const stravaTokenParsed = JSON.parse(stravaToken);
-
-        const config = {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ accessToken: stravaTokenParsed.access_token }),
-        };
-        const response = await fetch("/getActivities", config);
-        const data = await response.json();
-
-        this.activities = await this.fetchData();
-        console.log(this.activities);
+        const html = await this.getHTML();
+        document.querySelector("#app").innerHTML = html;
     }
 
 
     async fetchData() {
-        const resActivities = await fetch("/data/activities.json");
-        const data = await resActivities.json();
-
+      const response = await fetch("/getData");
+        const data = await response.json();
         return data;
     }
     
+    async getHTML(){
+        return `
+        <h1>Dashboard</h1>
+        <p>Voici la liste de vos dernières activités</p>
+        <p>Nombre d'activités : ${this.activities.length}</p>
+        <ul>
+
+        </ul>
+        `;
+    }
+
 }

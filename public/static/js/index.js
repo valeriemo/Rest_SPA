@@ -1,10 +1,11 @@
 // Routage frond-end
-import Home from "./views/Home.js";
 import Dashboard from "./views/Dashboard.js";
 import StravaAuth from "./utils/StravaAuth.js";
 import StravaCallback from "./utils/StravaCallback.js";
 
 // verifie dans le local storage si le token existe
+
+
 const routes = [
     { path: "/", utils: StravaAuth }, //exception pour la route de callback    
     { path: "/callback", utils: StravaCallback}, //exception pour la route de callback

@@ -7,10 +7,11 @@ const fs = require("fs");
 const request = require("request");
 const config = require("./config");
 const port = config.PORT;
+
+const client_id = config.STRAVA_CLIENT_ID;
+const client_secret = config.STRAVA_CLIENT_SECRET;
+
 app.use(express.json());
-
-
-
 app.listen(port, () => console.log("Server running..."));
 
 /**
@@ -40,8 +41,8 @@ app.post("/getActivities", (req, res) => {
             console.log("Status:", response.statusCode);
         } else {
             // data is already parsed as JSON:
-            console.log(data);
             const activities = data;
+            // vider le fichier activities.json avant de le remplir
             fs.writeFile(
                 "./data/activities.json",
                 JSON.stringify(activities),
@@ -58,13 +59,22 @@ app.post("/getActivities", (req, res) => {
     });
 });
 
+app.get("/getData", (req, res) => {
+    const filePath = path.resolve(__dirname, "data", "activities.json");
+    fs.readFile(filePath, (err, data) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).json({ error: 'Internal Server Error' });
+        }
+        const activities = JSON.parse(data);
+        res.json(activities);
+    });
+});
 
 /**
  * Route qui permet d'échanger le code d'autorisation contre un token d'accès
  */
 app.post("/getTokenFromCode", async (req, res) => {
-    const client_id = config.STRAVA_CLIENT_ID;
-    const client_secret = config.STRAVA_CLIENT_SECRET;
     const code = req.body.code;
     const url = `https://www.strava.com/oauth/token?client_id=${client_id}&client_secret=${client_secret}&code=${code}&grant_type=authorization_code`;
 
@@ -74,16 +84,13 @@ app.post("/getTokenFromCode", async (req, res) => {
         }
 
         const data = JSON.parse(body);
+
+        console.log(data);
         const access_token = data.access_token;
         const refresh_token = data.refresh_token;
         const athlete = data.athlete.id;
         const expires_at = data.expires_at;
 
-        // debug block
-        console.log("access_token: " + access_token);
-        console.log("refresh_token: " + refresh_token);
-        console.log("athlete: " + athlete);
-        console.log("expires_at: " + expires_at);
 
         res.json({
             access_token,
@@ -91,6 +98,33 @@ app.post("/getTokenFromCode", async (req, res) => {
             athlete,
             expires_at,
         });
+    });
+});
+
+
+app.post("/refreshToken", (req, res) => {
+    const refreshToken = req.body.refresh_token;
+    const url = `https://www.strava.com/oauth/token?client_id=${client_id}&client_secret=${client_secret}&refresh_token=${refreshToken}&grant_type=refresh_token`;
+
+    console.log(refreshToken)
+    request.post(url, (err, response, body) => {
+        if (err) {
+            return res.status(500).send("Error during Strava token exchange");
+        }
+
+        const data = JSON.parse(body);
+        console.log(data);
+
+        const access_token = data.access_token;
+        const refresh_token = data.refresh_token;
+        const expires_at = data.expires_at;
+
+        res.json({
+            access_token,
+            refresh_token,
+            expires_at,
+        });
+
     });
 });
 

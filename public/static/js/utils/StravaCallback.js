@@ -2,33 +2,32 @@ export default class StravaCallback {
     #code = null;
     #token = null;
 
-    constructor() { 
+    constructor() {
         this.#code = null;
         this.#token = null;
 
         this.init();
     }
 
-    init(){
+    init() {
         console.log("init");
         this.callback();
     }
 
-    
     getToken() {
         return this.#token;
     }
 
-    callback(){
+    callback() {
         console.log("init callback");
         const urlParams = new URLSearchParams(window.location.search);
         this.#code = urlParams.get("code");
-        console.log("code: " + this.#code); 
+        console.log("code: " + this.#code);
         // cacher le code dans l'url
         window.history.replaceState({}, document.title, window.location.origin);
         this.getToken(this.#code);
     }
-    
+
     async getToken(code) {
         console.log("code: " + code);
 
@@ -49,9 +48,28 @@ export default class StravaCallback {
 
         // mettre le token dans le local storage
         localStorage.setItem("stravaToken", JSON.stringify(data));
+        this.getActivities();
+    }
 
-        // changer le url pour /dashboard (je recois l'object)
-        TODO://je vais devoir mettre l'objet dans fichier json pour pouvoir le lire dans le dashboard
-        history.pushState(null, null, "/dashboard");
+    // 2. récupérer les activités de l'utilisateur dans le dossier data et les afficher dans le dashboard
+    async getActivities() {
+        const stravaToken = localStorage.getItem("stravaToken");
+        const stravaTokenParsed = JSON.parse(stravaToken);
+
+        const config = {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                accessToken: stravaTokenParsed.access_token,
+            }),
+        };
+        const response = await fetch("/getActivities", config);
+        const data = await response.json();
+        console.log(data);
+
+        window.location.href = "/dashboard";
+        
     }
 }

@@ -1,13 +1,13 @@
 // les points d'entrée de notre serveur et comment il doit réagir aux différentes requêtes HTTP
-
 const express = require("express");
 const app = express();
 const path = require("path");
 const fs = require("fs");
 const request = require("request");
+
+// Variables d'environnement
 const config = require("./config");
 const port = config.PORT;
-
 const client_id = config.STRAVA_CLIENT_ID;
 const client_secret = config.STRAVA_CLIENT_SECRET;
 
@@ -24,7 +24,6 @@ app.use("/static", express.static(path.resolve(__dirname, "public", "static")));
  */
 app.post("/getActivities", (req, res) => {
     const stravaToken = req.body.accessToken;  // Use req.body to access the POST request body
-
     const url = "https://www.strava.com/api/v3/athlete/activities?per_page=30";
 
     request.get({
@@ -42,7 +41,6 @@ app.post("/getActivities", (req, res) => {
         } else {
             // data is already parsed as JSON:
             const activities = data;
-            // vider le fichier activities.json avant de le remplir
             fs.writeFile(
                 "./data/activities.json",
                 JSON.stringify(activities),
@@ -59,6 +57,9 @@ app.post("/getActivities", (req, res) => {
     });
 });
 
+/**
+ * Route qui permet de récupérer les données de Strava depuis le fichier JSON
+ */
 app.get("/getData", (req, res) => {
     const filePath = path.resolve(__dirname, "data", "activities.json");
     fs.readFile(filePath, (err, data) => {

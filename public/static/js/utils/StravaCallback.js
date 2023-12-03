@@ -29,8 +29,6 @@ export default class StravaCallback {
     }
 
     async getToken(code) {
-        console.log("code: " + code);
-
         const config = {
             method: "POST",
             headers: {
@@ -38,20 +36,13 @@ export default class StravaCallback {
             },
             body: JSON.stringify({ code: code }),
         };
-        console.log("config:" + JSON.stringify(config));
-
         const response = await fetch("/getTokenFromCode", config);
         const data = await response.json();
-
-        // Utilisez la variable 'data' pour accéder aux données JSON de la réponse.
-        console.log(JSON.stringify(data));
-
         // mettre le token dans le local storage
         localStorage.setItem("stravaToken", JSON.stringify(data));
         this.getActivities();
     }
 
-    // 2. récupérer les activités de l'utilisateur dans le dossier data et les afficher dans le dashboard
     async getActivities() {
         const stravaToken = localStorage.getItem("stravaToken");
         const stravaTokenParsed = JSON.parse(stravaToken);
@@ -70,6 +61,5 @@ export default class StravaCallback {
         console.log(data);
 
         window.location.href = "/dashboard";
-        
     }
 }

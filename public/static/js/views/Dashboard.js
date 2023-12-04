@@ -19,13 +19,14 @@ export default class extends AbstractView {
         console.log("init dashboard");
         console.log('activities =', this.activities);
         console.log('athlete =', this.athlete);
-        const html = await this.getHTML();
-        document.querySelector("#app").innerHTML = html;
+        // const html = await this.getHTML();
+        // document.querySelector("#app").innerHTML = html;
     }
 
     async fetchAthlete() {
         let accessToken = localStorage.getItem("stravaToken");
         accessToken = JSON.parse(accessToken).access_token;
+        
         const config = {
             method: "GET",
             headers: {
@@ -43,15 +44,23 @@ export default class extends AbstractView {
         return data;
     }
     
-    async getHTML(){
-        return `
-        <h1>Dashboard</h1>
-        <p>Voici la liste de vos dernières activités</p>
-        <p>Nombre d'activités : ${this.activities.length}</p>
-        <ul>
+    // async getHTML(){
+    //     return `
+    //     <div class="container-sml">
+    //         <p>Voici la liste de vos dernières activités</p>
+    //         <p>Nombre d'activités : ${this.activities.length}</p>
+    //     </div>
 
-        </ul>
-        `;
-    }
+    //     <div class="container-sml">
+    //         <p>Voici la liste de vos dernières activités</p>
+    //         <p>Nombre d'activités : ${this.activities.length}</p>
+    //     </div>
+
+    //     <div class="container-sml">
+    //         <p>Voici la liste de vos dernières activités</p>
+    //         <p>Nombre d'activités : ${this.activities.length}</p>
+    //     </div>
+    //     `;
+    // }
 
 }

@@ -39,4 +39,3 @@ if(match.route.view){
     const utils = new match.route.utils();
 }
 
-document.querySelector("#app").innerHTML; // la méthode ;

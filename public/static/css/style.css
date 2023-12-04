@@ -1,0 +1,216 @@
+@import url(root.css);
+@import url(general.css);
+
+/* Atoms */
+
+/* Molecules */
+
+/* Organisms */
+@import url(organisms/container.css);
+
+
+/* //////////////////////////////////////// */
+
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;500;700&display=swap');
+
+.app {
+	min-height: 80vh;
+	width: 100%;
+	max-width: 1600px;
+    border-radius: 18px;
+	background-color: var(--c-gray-800);
+	padding: 2vw 4vw 6vw;
+	display: flex;
+	flex-direction: column;
+    font-family: var(--font-quick);
+}
+
+.app-header {
+	display: grid;
+	grid-template-columns: minmax(min-content, 175px) minmax(max-content, 1fr) minmax(
+			max-content,
+			400px
+		);
+	column-gap: 4rem;
+	align-items: flex-end;
+    border-bottom: 1px solid var(--c-gray-600);
+    padding-bottom: 1.5rem;
+}
+.app-header-athlete-info{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding-bottom: 1rem;
+    padding-top: 1rem;
+}
+.app-header-date{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    padding-bottom: 1rem;
+    padding-top: 1rem;
+}
+.app-body {
+	height: 100%;
+	display: grid;
+    grid-template-columns: minmax( min-content, 1245px );
+    padding-top: 3.5rem;
+	column-gap: 4rem;
+	padding-top: 2.5rem;
+
+	@media (max-width: 1200px) {
+		grid-template-columns: 1fr;
+		& > * {
+			margin-bottom: 3.5rem;
+		}
+	}
+}
+
+.logo {
+	display: flex;
+	align-items: center;
+	padding-bottom: 1rem;
+	padding-top: 1rem;
+}
+
+.logo-icon {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 130px;
+}
+
+.logo-title {
+	display: flex;
+	flex-direction: column;
+	line-height: 1.25;
+	margin-left: 0.75rem;
+	span:first-child {
+		color: var(--c-text-primary);
+	}
+	span:last-child {
+		color: var(--c-text-tertiary);
+	}
+}
+
+.tiles {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	column-gap: 1rem;
+	row-gap: 1rem;
+	margin-top: 1.25rem;
+	@media (max-width: 700px) {
+		grid-template-columns: repeat(1, 1fr);
+	}
+}
+.container-activity{
+	display: grid;
+	grid-template-columns: repeat(5, 1fr);
+	column-gap: 1rem;
+	row-gap: 1rem;
+	margin-top: 1.25rem;
+	@media (max-width: 700px) {
+		grid-template-columns: repeat(1, 1fr);
+	}
+}
+
+.tile {
+	padding: 1rem;
+	border-radius: 8px;
+	background-color: var(--blue);
+	color: var(--c-gray-900);
+	min-height: 200px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	position: relative;
+	transition: 0.25s ease;
+	&:hover {
+		transform: translateY(-5px);
+	}
+	&:nth-child(2) {
+		background-color: var(--green-flash);
+	}
+	&:nth-child(3) {
+		background-color: var(--blue);
+	}
+    &:nth-child(4) {
+        background-color: var(--yellow);
+    }
+    &:nth-child(5) {
+        background-color: var(--violet);
+    }
+}
+
+.tile-header {
+	display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+	& h3 {
+		display: flex;
+        font-size: 1.5em;
+		flex-direction: column;
+		line-height: 1.375;
+		margin-left: 0.5rem;
+	}
+    & .tile-primary{
+        font-family: var(--font-quick);
+        padding-top: 0.3em;
+        font-size: 3.5em;
+        font-weight: 500;
+        padding-left: 0.3em;
+    }
+}
+.tile-activity{
+	padding: 1rem;
+	border-radius: 8px;
+	background: var(--c-gray-200);
+	color: var(--c-gray-900);
+	min-height: 200px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	position: relative;
+	transition: 0.25s ease;
+    &:hover {
+		transform: translateY(-5px);
+	}
+    & button{
+        margin-top: 1em;
+        padding: 0.5em 1em;
+        border-radius: 8px;
+        background-color: var(--c-gray-900);
+        color: white;
+        font-size: 1.2em;
+        font-weight: 500;
+        border: none;
+        cursor: pointer;
+        transition: 0.25s ease;
+        &:hover{
+            background-color: var(--green-flash);
+            color: var(--c-gray-900);
+        }
+    }
+}
+.tile-activity-header{
+    & h3 {
+        font-size: 1.2em;
+        font-weight: 700;
+        color: var(--c-gray-700);
+    }
+}
+.activites-section {
+	margin-top: 2.5rem;
+}
+
+.activites-section-header {
+	display: flex;
+	align-items: center;
+	width: 100%;
+	padding-bottom: 0.75rem;
+	border-bottom: 1px solid var(--c-gray-600);
+	h3 {
+		font-size: 1.5rem;
+	}
+}
+

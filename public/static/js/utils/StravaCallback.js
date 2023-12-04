@@ -46,7 +46,7 @@ export default class StravaCallback {
     async getActivities() {
         const stravaToken = localStorage.getItem("stravaToken");
         const stravaTokenParsed = JSON.parse(stravaToken);
-
+        const timestamp = this.getEpochTimestamp();
         const config = {
             method: "POST",
             headers: {
@@ -54,12 +54,24 @@ export default class StravaCallback {
             },
             body: JSON.stringify({
                 accessToken: stravaTokenParsed.access_token,
+                timestamps: timestamp,
             }),
         };
         const response = await fetch("/getActivities", config);
         const data = await response.json();
-        console.log(data);
 
+        console.log("timestamp: ", timestamp);
         window.location.href = "/dashboard";
+    }
+
+    getEpochTimestamp() {
+        const currentDate = new Date();
+        // Set the date to the first day of the current month
+        currentDate.setDate(1);
+        // La date du mois passé
+        currentDate.setMonth(currentDate.getMonth() - 1);
+        // Get the epoch timestamp
+        const epochTimestamp = Math.floor(currentDate.getTime() / 1000); // divide by 1000 to get seconds
+        return epochTimestamp;
     }
 }

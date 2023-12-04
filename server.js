@@ -21,40 +21,49 @@ app.use("/static", express.static(path.resolve(__dirname, "public", "static")));
 
 /**
  * Routes qui permettent de récupérer les données de Strava
+ * (les activités des 2 derniers mois)
  */
 app.post("/getActivities", (req, res) => {
-    const stravaToken = req.body.accessToken;  // Use req.body to access the POST request body
-    const url = "https://www.strava.com/api/v3/athlete/activities?per_page=30";
+    const stravaToken = req.body.accessToken; // Use req.body to access the POST request body
+    const timestamp = req.body.timestamps;
+    const url = `https://www.strava.com/api/v3/athlete/activities?after=${timestamp}`;
 
-    request.get({
-        url: url,
-        json: true,
-        headers: {
-            Authorization: `Bearer ${stravaToken}`,
-            accept: "application/json",
+    request.get(
+        {
+            url: url,
+            json: true,
+            headers: {
+                Authorization: `Bearer ${stravaToken}`,
+                accept: "application/json",
+            },
         },
-    }, (err, response, data) => {
-        if (err) {
-            console.log("Error:", err);
-        } else if (response.statusCode !== 200) {
-            console.log("Status:", response.statusCode);
-        } else {
-            // data is already parsed as JSON:
-            const activities = data;
-            fs.writeFile(
-                "./data/activities.json",
-                JSON.stringify(activities),
-                (err) => {
-                    if (err) {
-                        console.error(err);
-                        return res.status(500).json({ error: 'Internal Server Error' });
+        (err, response, data) => {
+            if (err) {
+                console.log("Error:", err);
+            } else if (response.statusCode !== 200) {
+                console.log("Status:", response.statusCode);
+            } else {
+                // data is already parsed as JSON:
+                const activities = data;
+
+                // Ecrire les données dans le fichier JSON
+                fs.writeFile(
+                    "./data/activities.json",
+                    JSON.stringify(activities),
+                    (err) => {
+                        if (err) {
+                            console.error(err);
+                            return res
+                                .status(500)
+                                .json({ error: "Internal Server Error" });
+                        }
+                        console.log("File has been created");
+                        res.json(activities);
                     }
-                    console.log("File has been created");
-                    res.json(activities);
-                }
-            );
+                );
+            }
         }
-    });
+    );
 });
 
 /**
@@ -65,7 +74,7 @@ app.get("/getData", (req, res) => {
     fs.readFile(filePath, (err, data) => {
         if (err) {
             console.error(err);
-            return res.status(500).json({ error: 'Internal Server Error' });
+            return res.status(500).json({ error: "Internal Server Error" });
         }
         const activities = JSON.parse(data);
         res.json(activities);
@@ -92,7 +101,6 @@ app.post("/getTokenFromCode", async (req, res) => {
         const athlete = data.athlete.id;
         const expires_at = data.expires_at;
 
-
         res.json({
             access_token,
             refresh_token,
@@ -102,12 +110,11 @@ app.post("/getTokenFromCode", async (req, res) => {
     });
 });
 
-
 app.post("/refreshToken", (req, res) => {
     const refreshToken = req.body.refresh_token;
     const url = `https://www.strava.com/oauth/token?client_id=${client_id}&client_secret=${client_secret}&refresh_token=${refreshToken}&grant_type=refresh_token`;
 
-    console.log(refreshToken)
+    console.log(refreshToken);
     request.post(url, (err, response, body) => {
         if (err) {
             return res.status(500).send("Error during Strava token exchange");
@@ -125,7 +132,6 @@ app.post("/refreshToken", (req, res) => {
             refresh_token,
             expires_at,
         });
-
     });
 });
 

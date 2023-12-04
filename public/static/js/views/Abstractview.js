@@ -9,7 +9,4 @@ export default class {
         document.title = title;
     }
 
-    async getHTML() {
-        return;
-    }
 }

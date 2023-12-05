@@ -69,7 +69,7 @@ app.post("/getActivities", (req, res) => {
 /**
  * Route qui permet de récupérer les données de Strava depuis le fichier JSON
  */
-app.get("/getData", (req, res) => {
+app.post("/getData", (req, res) => {
     const filePath = path.resolve(__dirname, "data", "activities.json");
     fs.readFile(filePath, (err, data) => {
         if (err) {
@@ -80,6 +80,7 @@ app.get("/getData", (req, res) => {
         res.json(activities);
     });
 });
+
 
 /**
  * Route qui permet d'échanger le code d'autorisation contre un token d'accès

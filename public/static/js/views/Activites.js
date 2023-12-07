@@ -11,6 +11,8 @@ export default class extends AbstractView {
     }
 
     async init() {
+        document.querySelector("#app").style.opacity = 1;
+        document.querySelector("#app").style.transition = "all 0.5s ease-in-out";
         this.activities = await this.fetchData();
         const html = await this.getHtml();
         const header = `<h1>Activités des 2 derniers mois</h1>`;

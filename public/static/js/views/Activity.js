@@ -22,6 +22,8 @@ export default class extends AbstractView {
         if (!stravaToken) {
             window.location.href = "/";
         }
+        document.querySelector("#app").style.opacity = 1;
+        document.querySelector("#app").style.transition = "all 0.5s ease-in-out";
         console.log(this.id);
         console.log(this.activity);
         const template = await this.getTemplate();

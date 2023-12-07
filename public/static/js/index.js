@@ -4,8 +4,8 @@ import Activity from "./views/Activity.js";
 import StravaAuth from "./utils/StravaAuth.js";
 import StravaCallback from "./utils/StravaCallback.js";
 import Activites from "./views/Activites.js";
-import Profil from "./views/Apropos.js";
 import Apropos from "./views/Apropos.js";
+
 
 const pathToRegex = path => new RegExp("^" + path.replace(/\//g, "\\/").replace(/:\w+/g, "(.+)") + "$");
 const getParams = match => {

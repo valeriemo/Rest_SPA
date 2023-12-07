@@ -15,7 +15,11 @@ export default class extends AbstractView {
         (async () => {
             this.activities = await this.fetchData();
             this.athlete = await this.fetchAthlete();
-            this.init();
+            
+            // Utilisation de .then pour appeler init() une fois que les données sont prêtes
+            Promise.resolve().then(() => {
+                this.init();
+            });
         })();
     }
 
@@ -27,6 +31,8 @@ export default class extends AbstractView {
         if(!stravaToken) {
             window.location.href = "/";
         }
+        document.querySelector("#app").style.opacity = 1;
+        document.querySelector("#app").style.transition = "all 0.5s ease-in-out";
         const html = await this.getHeader();
         const stats = await this.getStats();
         const activities = await this.getActivities();

@@ -24,7 +24,7 @@ app.use("/static", express.static(path.resolve(__dirname, "public", "static")));
  * (les activités des 2 derniers mois)
  */
 app.post("/getActivities", (req, res) => {
-    const stravaToken = req.body.accessToken; // Use req.body to access the POST request body
+    const stravaToken = req.body.accessToken; 
     const timestamp = req.body.timestamps;
     const url = `https://www.strava.com/api/v3/athlete/activities?after=${timestamp}`;
 
@@ -111,6 +111,9 @@ app.post("/getTokenFromCode", async (req, res) => {
     });
 });
 
+/**
+ * Route qui permet d'échanger le token d'actualisation contre un nouveau token d'accès
+ */
 app.post("/refreshToken", (req, res) => {
     const refreshToken = req.body.refresh_token;
     const url = `https://www.strava.com/oauth/token?client_id=${client_id}&client_secret=${client_secret}&refresh_token=${refreshToken}&grant_type=refresh_token`;

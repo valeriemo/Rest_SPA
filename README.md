@@ -91,4 +91,7 @@ Pour tester l'app vous devez possèder un compte Strava. Ensuite, vous devez cr�
 - Strava API Swagger: https://developers.strava.com/playground/
 
 
-![Démo vidéo](app-media/app-demo.mp4)
+
+https://github.com/valeriemo/Rest_SPA/assets/7307498/deffac3d-3112-4c73-b4ce-d63c08ccb9e3
+
+

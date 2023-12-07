@@ -85,6 +85,8 @@ Pour tester l'app vous devez possèder un compte Strava. Ensuite, vous devez cr�
 
 ## Points à améliorer 
 - Je voudrais que l'app affiche un petit sablier pendant l'attente de la résolution de la page dashboard.
+- Je voudrais ajouter une map pour les activités.
+- Je voudrais sortir plus de stats.
 
 ## Liens 
 - Strava: https://www.strava.com/

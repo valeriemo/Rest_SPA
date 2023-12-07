@@ -23,7 +23,6 @@ export default class extends AbstractView {
      * Initialise la page dashboard
      */
     async init() {
-        // verifier si le token existe dans le local storage
         const stravaToken = localStorage.getItem("stravaToken");
         if(!stravaToken) {
             window.location.href = "/";
@@ -93,16 +92,16 @@ export default class extends AbstractView {
             month: "long",
         });
         const mois = formattedMonth.format(this.dateToday);
-
+        const options = { day: 'numeric', month: 'long', year: 'numeric' };
+        const formatter = new Intl.DateTimeFormat('fr-FR', options);
+        const formattedDate = formatter.format(this.dateToday);
         headerTemplate = headerTemplate.replace("{{ firstname }}", firstname);
         headerTemplate = headerTemplate.replace("{{ lastname }}", lastname);
         headerTemplate = headerTemplate.replace("{{ Username }}", username);
         headerTemplate = headerTemplate.replace("{{ bio }}", bio);
         headerTemplate = headerTemplate.replace("{{ Mois }}", mois);
-        headerTemplate = headerTemplate.replace("{{ Date }}", this.dateToday);
+        headerTemplate = headerTemplate.replace("{{ Date }}", formattedDate);
         headerTemplate = headerTemplate.replace("{{ path }}", this.origin);
-    
-
         return headerTemplate;
     }
 
@@ -127,19 +126,21 @@ export default class extends AbstractView {
                 this.activitiesLastMonth.push(activity);
             }
         }); 
-
+        // Nb activités
         const nbActivitiesMonth = this.activitiesThisMonth.length;
         const nbactivitiesLastMonth = this.activitiesLastMonth.length;
-
+        // Total KM
         const totalKmThisMonth = this.calculKm(this.activitiesThisMonth);
         const totalKmLastMonth = this.calculKm(this.activitiesLastMonth);
-
-        // calculer la moyenne de km par activité
+        // Moyenne KM
         const averageKmMonth = this.moyenneKm(this.activitiesThisMonth);
         const averageKmLastMonth = this.moyenneKm(this.activitiesLastMonth);
-
+        // Cadence
         const cadenceAverageMonth = this.cadenceAverage(this.activitiesThisMonth);
         const cadenceAverageLastMonth = this.cadenceAverage(this.activitiesLastMonth);
+        //Speed
+        const speedAverageMonth = this.speedAverage(this.activitiesThisMonth);
+        const speedAverageLastMonth = this.speedAverage(this.activitiesLastMonth);
 
         statsTemplate = statsTemplate.replace('{{ totalKmThisMonth }}', totalKmThisMonth);
         statsTemplate = statsTemplate.replace('{{ totalKmLastMonth }}', totalKmLastMonth);
@@ -147,9 +148,10 @@ export default class extends AbstractView {
         statsTemplate = statsTemplate.replace('{{ nbactivitiesLastMonth }}', nbactivitiesLastMonth);
         statsTemplate = statsTemplate.replace('{{ averageKmMonth }}', averageKmMonth);
         statsTemplate = statsTemplate.replace('{{ averageKmLastMonth }}', averageKmLastMonth);
+        statsTemplate = statsTemplate.replace('{{ speedThisMonth }}', speedAverageMonth);
+        statsTemplate = statsTemplate.replace('{{ speedLastMonth }}', speedAverageLastMonth);
         statsTemplate = statsTemplate.replace('{{ cadenceThisMonth }}', cadenceAverageMonth);
         statsTemplate = statsTemplate.replace('{{ cadenceLastMonth }}', cadenceAverageLastMonth);
-
         return statsTemplate;
     }
 
@@ -225,9 +227,33 @@ export default class extends AbstractView {
         let totalCadence = 0;
         activities.forEach(activity => {
             totalCadence += activity.average_cadence;
+            console.log(activity)
         });
         cadenceAverage = (totalCadence / nbActivites).toFixed(0);
         return cadenceAverage;
+    }
+
+    /**
+     * Calcul la moyenne de vitesse par KM des activités
+     * @param {*} activities 
+     * @returns 
+     */
+    speedAverage(activities){
+        let speedAverage = 0;
+        const nbActivites = activities.length;
+        let totalSpeed = 0;
+        activities.forEach(activity => {
+            totalSpeed += activity.average_speed;
+        });
+        let speedInKmPerHour = (totalSpeed / nbActivites) * 3.6;
+        const timeInMinutes = 60 / speedInKmPerHour;
+        const timeInSecondes = timeInMinutes * 60;
+        const minutes = Math.floor(timeInMinutes);
+        let secondes = Math.round((timeInSecondes % 60));
+        if(secondes.toString().length === 1){
+            secondes = `${secondes}0`;
+        }
+        return `${minutes}:${secondes}/km`;
     }
 
 

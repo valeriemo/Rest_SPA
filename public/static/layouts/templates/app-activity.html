@@ -1,24 +1,28 @@
+
 <section class="activity-tile">
     <header class="activity-tile-header">
+        <p>{{ date }}</p>
         <h1>{{ title }}</h1>
-        <p>{{ type }}</p>
+        <p>{{ distance }} Km</p>
+
     </header>
-    <div class="activity-tile-data">
-        <dl>
-            <dt>Distance</dt>
-            <dd>{{ distance }} Km</dd>
+        <div class="activity-tile-data">
+            <dl>
+                <dt>Type :</dt>
+                <dd>{{ type }}</dd>
+    
+                <dt>Vitesse moyenne :</dt>
+                <dd>{{ pace }}</dd>
+    
+                <dt>Temps :</dt>
+                <dd>{{ hours }}h{{ minutes }}m</dd>
+    
+                <dt>Calories :</dt>
+                <dd>{{ calories }}</dd>
+            </dl>
+        </div>
 
-            <dt>Vitesse moyenne</dt>
-            <dd>{{ pace }}</dd>
-
-            <dt>Temps</dt>
-            <dd>{{ hours }}h{{ minutes }}m</dd>
-
-            <dt>Calories</dt>
-            <dd>{{ calories }}</dd>
-
-            <dt>Élévation</dt>
-            <dd>{{ altitude }}</dd>
-        </dl>
-    </div>
 </section>
+<footer>
+    <a href="/dashboard" class="button-1">Retour au dashboard</a>
+</footer>

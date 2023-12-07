@@ -14,7 +14,7 @@ export default class extends AbstractView {
     }
 
     /**
-     * Initialise la page d'une activité    
+     * Initialise la page d'une activité
      */
     async init() {
         // verifier si le token existe dans le local storage
@@ -44,9 +44,9 @@ export default class extends AbstractView {
         const post = data.find((item) => item.id == this.id);
         return post;
     }
-    
+
     /**
-     * 
+     *
      * @returns {Promise} data - le template de la page activity
      */
     async getTemplate() {
@@ -57,31 +57,44 @@ export default class extends AbstractView {
 
         const title = this.activity.name || "Non défini";
         const date = this.activity.start_date_local || "Non défini";
-        const elevation = this.activity.total_elevation_gain || "Non défini";
         const calories = this.activity.calories || "Non défini";
         const type = this.activity.type || "Non défini";
-
-        
+        const dateObject = new Date(date);
+        const year = dateObject.getFullYear();
+        const month = (dateObject.getMonth() + 1).toString().padStart(2, "0"); 
+        const day = dateObject.getDate().toString().padStart(2, "0");
+        const formattedDate = `${year}-${month}-${day}`;
+        const speed = this.speedAverage(this.activity.average_speed);
         const duration = this.activity.moving_time; //in seconds
         const hours = Math.floor(duration / 3600);
         const minutes = Math.floor((duration % 3600) / 60);
         const distance = this.activity.distance / 1000; //in meters
-        let pace = distance / (duration / 3600);
-        //pace = pace.toFixed(2);
-
 
         activityTemplateText = activityTemplateText
             .replace("{{ title }}", title)
-            .replace("{{ date }}", date)
+            .replace("{{ date }}", formattedDate)
             .replace("{{ duration }}", duration)
-            .replace("{{ pace }}", pace)
+            .replace("{{ pace }}", speed)
             .replace("{{ distance }}", distance.toFixed(2))
             .replace("{{ hours }}", hours)
             .replace("{{ minutes }}", minutes)
-            .replace("{{ elevation }}", elevation)
             .replace("{{ calories }}", calories)
             .replace("{{ type }}", type);
 
         return activityTemplateText;
+    }
+
+    /**
+     * Calcule la vitesse moyenne par km
+     * @param {*} speed 
+     * @returns 
+     */
+    speedAverage(speed){
+        let speedInKmPerHour = speed * 3.6;
+        const timeInMinutes = 60 / speedInKmPerHour;
+        const timeInSecondes = timeInMinutes * 60;
+        const minutes = Math.floor(timeInMinutes);
+        let secondes = Math.round((timeInSecondes % 60));
+        return `${minutes}:${secondes}/km`;
     }
 }

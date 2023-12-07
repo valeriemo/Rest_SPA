@@ -3,6 +3,9 @@ import Dashboard from "./views/Dashboard.js";
 import Activity from "./views/Activity.js";
 import StravaAuth from "./utils/StravaAuth.js";
 import StravaCallback from "./utils/StravaCallback.js";
+import Activites from "./views/Activites.js";
+import Profil from "./views/Apropos.js";
+import Apropos from "./views/Apropos.js";
 
 const pathToRegex = path => new RegExp("^" + path.replace(/\//g, "\\/").replace(/:\w+/g, "(.+)") + "$");
 const getParams = match => {
@@ -19,6 +22,8 @@ const router = async () => {
         { path: "/callback", utils: StravaCallback}, 
         { path: "/dashboard", view: Dashboard },
         { path: "/activity/:id", view: Activity },
+        { path: "/activites", view: Activites},
+        { path: "/apropos", view: Apropos},       
     ];
 
 

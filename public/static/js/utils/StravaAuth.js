@@ -9,7 +9,7 @@ export default class StravaAuth {
         this.init();
     }
 
-    init() {
+    async init() {
         // verifier si le token existe dans le local storage
         const stravaToken = localStorage.getItem("stravaToken");
 
@@ -21,7 +21,7 @@ export default class StravaAuth {
             } else {
                 // si non, refresh le token
                 console.log("token expired");
-                this.refreshToken();
+                await this.refreshToken();
                 window.location.href = "/dashboard";
             }
         } else {

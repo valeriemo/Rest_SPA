@@ -7,7 +7,7 @@ de les afficher dans une page HTML.
 ## Table des matières
 
 - [Rest_SPA](#rest_spa)
-- [STATS MENSUELS](#stats-mensuels)
+- [STATS MENSUELLESS](#stats-mensuels)
     - [Ligne de commande](#ligne-de-commande)
     - [Fonctionnement](#fonctionnement)
     - [Architecture du code](#architecture-du-code)
@@ -16,7 +16,7 @@ de les afficher dans une page HTML.
 - [Liens](#liens)
 
 
-## STATS MENSUELS ##
+## STATS MENSUELLES ##
 L'app Stats mensuels récupère les données de l'utilisateur connecté à Strava via l'API de Strava. C'est une application qui prend en compte les données sportives des 2 derniers mois. Le dashboard affiche les statistiques principale du sportif. Cela permet à l'althlete de se concentrer sur le mois actuel en comparant son évolution par rapport au mois dernier. 
 
 ## Ligne de commande ##

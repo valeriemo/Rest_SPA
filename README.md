@@ -7,7 +7,7 @@ de les afficher dans une page HTML.
 ## Table des matières
 
 - [Rest_SPA](#rest_spa)
-- [STATS MENSUELLESS](#stats-mensuels)
+- [STATS MENSUELLES](#stats-mensuels)
     - [Ligne de commande](#ligne-de-commande)
     - [Fonctionnement](#fonctionnement)
     - [Architecture du code](#architecture-du-code)

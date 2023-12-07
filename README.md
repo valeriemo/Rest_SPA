@@ -8,6 +8,7 @@ de les afficher dans une page HTML.
 
 - [Rest_SPA](#rest_spa)
 - [STATS MENSUELS](#stats-mensuels)
+    - [Ligne de commande](#ligne-de-commande)
     - [Fonctionnement](#fonctionnement)
     - [Architecture du code](#architecture-du-code)
 - [Tester l'app](#tester-lapp)
@@ -15,11 +16,16 @@ de les afficher dans une page HTML.
 - [Liens](#liens)
 
 
-# STATS MENSUELS #
+## STATS MENSUELS ##
 L'app Stats mensuels récupère les données de l'utilisateur connecté à Strava via l'API de Strava. C'est une application qui prend en compte les données sportives des 2 derniers mois. Le dashboard affiche les statistiques principale du sportif. Cela permet à l'althlete de se concentrer sur le mois actuel en comparant son évolution par rapport au mois dernier. 
 
-## Fonctionnement ##
+## Ligne de commande ##
+Ligne de commande pour débuter le projet
+#npm init -y
+#npm i express nodemon dotenv request 
+#npm start
 
+## Fonctionnement ##
 L'app se veut une SPA. Avant d'atteindre l'SPA nous devons absolument faire un rafraissichement de la page lors de l'authentification à Strava
 
 Authentification de l'utilisateur : L'API de Strava utilise OAuth 2.0 pour l'authentification. Les utilisateurs doivent autoriser l'application à accéder à leurs données Strava. Une fois autorisé, votre application reçoit un jeton d'accès (access token) qui est utilisé pour accéder aux données de l'utilisateur au nom de celui-ci. Ce jeton est enresgistrer dans le locale storage et permet alors à l'utilisateur d'afficher la page sans rafraichissement. 
@@ -77,7 +83,7 @@ Cette partie du code gère la logique côté serveur de l'application. Elle est 
 Pour tester l'app vous devez possèder un compte Strava. Ensuite, vous devez créer une application sur le portail développeurs Strava. Cela vous fournira une clé d'API (client ID) et un secret d'API que vous utiliserez pour authentifier vos requêtes.
 
 - Cloner le git
-- Installer les dépendances node
+- Installer les dépendances node #npm init
 - Aller chercher les informations liées à votre Strava pour accéder à l'API https://www.strava.com/settings/api
 - Remplir le .env avec vos informations
 - Lancer le serveur 

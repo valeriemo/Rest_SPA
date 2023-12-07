@@ -16,7 +16,7 @@ de les afficher dans une page HTML.
 
 
 # STATS MENSUELS #
-    L'app Stats mensuels récupère les données de l'utilisateur connecté à Strava via l'API de Strava. C'est une application qui prend en compte les données sportives des 2 derniers mois. Le dashboard affiche les statistiques principale du sportif. Cela permet à l'althlete de se concentrer sur le mois actuel en comparant son évolution par rapport au mois dernier. 
+L'app Stats mensuels récupère les données de l'utilisateur connecté à Strava via l'API de Strava. C'est une application qui prend en compte les données sportives des 2 derniers mois. Le dashboard affiche les statistiques principale du sportif. Cela permet à l'althlete de se concentrer sur le mois actuel en comparant son évolution par rapport au mois dernier. 
 
 ## Fonctionnement ##
 

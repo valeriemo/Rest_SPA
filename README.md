@@ -71,10 +71,10 @@ Ce dossier réunit les différents templates HTML de l'application.
 - `app-page-activites.html`
 - `app-stats.html`
 
-## `/server.js`
+#### `/server.js`
 Cette partie du code gère la logique côté serveur de l'application. Elle est construite avec Node.js et utilise express, filesystem, nodemon et doteenv. 
 
-## /data
+#### /data
 /data.json -> Nous insérons les données de l'API de strava dans ce dossier.
 
 ## Tester l'app ##
